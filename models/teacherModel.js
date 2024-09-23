@@ -11,7 +11,8 @@ const teacherSchema = new mongoose.Schema({
   qualifications: { type: [String], required: true }, // Array of certifications
   address: { type: String, required: true },
   username: { type: String, required: true, unique: true },
-  password: { type: String, required: true }, // Store hashed password
+  password: { type: String, required: true },
+  image: { type: String, required: false }, // Store hashed password
 });
 
 module.exports = mongoose.model("Teacher", teacherSchema);

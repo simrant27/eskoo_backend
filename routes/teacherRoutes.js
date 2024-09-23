@@ -1,10 +1,21 @@
 const express = require("express");
 const router = express.Router();
+const upload = require("../middlewares/teacherPhotoUpload");
 const teacherService = require("../services/teacherService");
 
 // Create a new teacher
-router.post("/create", async (req, res) => {
-  const result = await teacherService.createTeacher(req.body);
+// Create a new teacher
+router.post("/create", upload.single("image"), async (req, res) => {
+  const teacherData = req.body;
+
+  if (req.file) {
+    teacherData.image = req.file.path; // Add the image path to teacherData
+  } else {
+    teacherData.image = null; // Handle case where no image is uploaded
+  }
+
+  const result = await teacherService.createTeacher(teacherData); // Call service function
+
   if (result.success) {
     res.status(201).json({
       message: "Teacher created successfully",
@@ -14,6 +25,7 @@ router.post("/create", async (req, res) => {
     res.status(400).json({ message: result.message });
   }
 });
+
 //get all teacher
 router.get("/", async (req, res) => {
   const result = await teacherService.getAllTeachers();
@@ -26,7 +38,11 @@ router.get("/", async (req, res) => {
 
 // Update teacher details
 router.put("/update/:id", async (req, res) => {
-  const result = await teacherService.updateTeacher(req.params.id, req.body);
+  const teacherData = req.body;
+  if (req.file) {
+    teacherData.image = req.file.path; // Add the image path to teacherData
+  }
+  const result = await teacherService.updateTeacher(req.params.id, teacherData);
   if (result.success) {
     res.status(200).json({
       message: "Teacher updated successfully",

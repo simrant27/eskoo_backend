@@ -4,7 +4,8 @@ const bcrypt = require("bcrypt");
 // Create a new teacher
 const createTeacher = async (teacherData) => {
   try {
-    // Destructure data from the incoming teacher data
+    console.log("Received teacher data:", teacherData);
+
     const {
       fullName,
       email,
@@ -17,12 +18,12 @@ const createTeacher = async (teacherData) => {
       address,
       username,
       password,
+      image,
     } = teacherData;
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create a new Teacher document
     const newTeacher = new Teacher({
       fullName,
       email,
@@ -35,13 +36,14 @@ const createTeacher = async (teacherData) => {
       address,
       username,
       password: hashedPassword,
+      image, // Use the uploaded image path
     });
 
-    // Save the teacher to the database
     await newTeacher.save();
 
     return { success: true, teacher: newTeacher };
   } catch (error) {
+    console.error("Error creating teacher:", error);
     return { success: false, message: error.message };
   }
 };
