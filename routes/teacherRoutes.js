@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const upload = require("../middlewares/teacherPhotoUpload");
+const upload = require("../middlewares/uploadPhoto");
 const teacherService = require("../services/teacherService");
 
 // Create a new teacher
@@ -28,7 +28,7 @@ router.post("/create", upload.single("image"), async (req, res) => {
 
 //get all teacher
 router.get("/", async (req, res) => {
-  const result = await teacherService.getAllTeachers();
+  const result = await teacherService.getAllStudents();
   if (result.success) {
     res.status(200).json({ teachers: result.teachers });
   } else {

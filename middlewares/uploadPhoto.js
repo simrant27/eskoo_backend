@@ -4,8 +4,17 @@ const path = require("path");
 // Configure storage
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, "../assets/upload_teacher")); // Upload to 'upload_teacher' folder
-  },
+    let dir = "";
+    if (req.baseUrl.includes("teachers")) {
+      dir = "upload_teacher";
+    } else if (req.baseUrl.includes("student")) {
+      dir = "upload_student";
+    } else if (req.baseUrl.includes("parents")) {
+      dir = "upload_parent";
+    }
+    cb(null, path.join(__dirname, `../assets/${dir}`)); // Upload to the appropriate folder
+  }, // Upload to 'upload_teacher' folder
+
   filename: function (req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname)); // Use timestamp for unique filenames
   },
