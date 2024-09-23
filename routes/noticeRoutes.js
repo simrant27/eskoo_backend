@@ -73,4 +73,8 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+router.get("/hello", (req, res) => {
+  res.send("Hello from the backend!");
+});
+
 module.exports = router;
