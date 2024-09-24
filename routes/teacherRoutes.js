@@ -28,7 +28,7 @@ router.post("/create", upload.single("image"), async (req, res) => {
 
 //get all teacher
 router.get("/", async (req, res) => {
-  const result = await teacherService.getAllStudents();
+  const result = await teacherService.getAllTeachers();
   if (result.success) {
     res.status(200).json({ teachers: result.teachers });
   } else {

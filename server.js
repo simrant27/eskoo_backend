@@ -5,6 +5,7 @@ const noticeRoutes = require("./routes/noticeRoutes");
 const teacherRoutes = require("./routes/teacherRoutes");
 const studentRoutes = require("./routes/studentRoutes");
 const parentRoutes = require("./routes/parentRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use("/api/notices", noticeRoutes);
 app.use("/api/teacher", teacherRoutes);
 app.use("/api/student", studentRoutes);
 app.use("/api/parent", parentRoutes);
+app.use("/api/login", authRoutes);
 
 app.use("/uploads", express.static("./assets/uploads_notice"));
 

@@ -63,11 +63,20 @@ router.put("/:id", upload.single("file"), async (req, res) => {
 });
 
 // Delete a notice
+const mongoose = require("mongoose");
+
 router.delete("/:id", async (req, res) => {
+  const noticeId = req.params.id;
+  if (!mongoose.Types.ObjectId.isValid(noticeId)) {
+    return res.status(400).json({ message: "Invalid Notice ID" });
+  }
+
   try {
-    const notice = await deleteNotice(req.params.id);
-    if (!notice) return res.status(404).json({ message: "Notice not found" });
-    res.status(204).send();
+    const notice = await deleteNotice(noticeId);
+    if (!notice) {
+      return res.status(404).json({ message: "Notice not found" });
+    }
+    res.status(200).json({ message: "Notice deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
