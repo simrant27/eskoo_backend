@@ -30,6 +30,12 @@ const studentSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  fees: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Fee", // Reference the Fee model
+    },
+  ],
 });
 
 module.exports = mongoose.model("Student", studentSchema);
