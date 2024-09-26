@@ -70,10 +70,23 @@ const deleteStudent = async (studentId) => {
   }
 };
 
+const getStudentsByClass = async (classAssigned) => {
+  try {
+    const students = await Student.find({ classAssigned: classAssigned });
+    if (students.length === 0) {
+      return { success: false, message: "No students found for this class" };
+    }
+    return { success: true, students };
+  } catch (error) {
+    return { success: false, message: error.message };
+  }
+};
+
 module.exports = {
   createStudent,
   getAllStudents,
   findStudentById,
   updateStudent,
   deleteStudent,
+  getStudentsByClass,
 };
