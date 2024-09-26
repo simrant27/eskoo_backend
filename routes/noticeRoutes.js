@@ -13,10 +13,12 @@ const router = express.Router();
 // Create a new notice
 router.post("/", upload.single("file"), async (req, res) => {
   try {
-    const file = req.file ? req.file.path : null; // Get file path if uploaded
+    const file = req.file; // Get file path if uploaded
+    console.log(file);
     const noticeData = {
       ...req.body,
-      file, // Attach file path to the notice data
+      file: file.filename,
+      // Attach file path to the notice data
     };
     const notice = await createNotice(noticeData);
     res.status(201).json(notice);

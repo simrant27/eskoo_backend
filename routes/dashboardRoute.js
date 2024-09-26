@@ -18,4 +18,16 @@ router.get("/teacher-dashboard", authenticate, (req, res) => {
   res.status(200).send("Welcome to the Teacher Dashboard");
 });
 
+// Protected route for admin dashboard
+// router.get("/admin-dashboard", (req, res) => {
+//   // Logic to render or return admin dashboard data
+//   res.json({ message: "Welcome to the Admin Dashboard!" });
+// });
+router.get("/admin-dashboard", authenticate, (req, res) => {
+  if (req.user.role !== "admin") {
+    return res.status(403).json({ message: "Access denied" });
+  }
+  res.status(200).send("Welcome to the Admin Dashboard");
+});
+
 module.exports = router;

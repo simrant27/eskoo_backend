@@ -5,6 +5,7 @@ const upload = require("../middlewares/uploadPhoto");
 const Student = require("../models/studentModel");
 
 const studentService = require("../services/studentService");
+const studentController = require("../controllers/studentController");
 
 // Create a new student
 router.post("/create", upload.single("image"), async (req, res) => {
@@ -116,5 +117,8 @@ router.get("/class/:classAssigned", async (req, res) => {
     res.status(500).json({ success: false, message: error.message }); // Handle errors
   }
 });
+
+// Fetch students by class name
+router.get("/class", studentController.getStudentsByClass);
 
 module.exports = router;
