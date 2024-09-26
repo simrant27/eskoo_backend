@@ -2,6 +2,8 @@
 const express = require("express");
 const router = express.Router();
 const upload = require("../middlewares/uploadPhoto");
+const Student = require("../models/studentModel");
+
 const studentService = require("../services/studentService");
 const studentController = require("../controllers/studentController");
 
@@ -99,6 +101,20 @@ router.delete("/delete/:id", async (req, res) => {
     res
       .status(400)
       .json({ message: "Error deleting student", error: error.message });
+  }
+});
+router.get("/class/:classAssigned", async (req, res) => {
+  try {
+    const classAssigned = req.params.classAssigned; // Extract the class name from the URL
+    const students = await Student.find({ classAssigned: classAssigned }); // Use the correct MongoDB query
+    if (!students || students.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No students found for this class" });
+    }
+    res.json({ success: true, students }); // Return the students in JSON format
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message }); // Handle errors
   }
 });
 
