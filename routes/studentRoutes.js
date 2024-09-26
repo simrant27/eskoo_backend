@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const upload = require("../middlewares/uploadPhoto");
 const studentService = require("../services/studentService");
+const studentController = require("../controllers/studentController");
 
 // Create a new student
 router.post("/create", upload.single("image"), async (req, res) => {
@@ -100,5 +101,8 @@ router.delete("/delete/:id", async (req, res) => {
       .json({ message: "Error deleting student", error: error.message });
   }
 });
+
+// Fetch students by class name
+router.get("/class", studentController.getStudentsByClass);
 
 module.exports = router;

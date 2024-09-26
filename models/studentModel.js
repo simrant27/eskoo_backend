@@ -18,6 +18,10 @@ const studentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  gender: {
+    type: String,
+    required: true,
+  },
   parentID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Parent",
