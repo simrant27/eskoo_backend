@@ -102,7 +102,7 @@ router.delete("/delete/:id", async (req, res) => {
       .json({ message: "Error deleting student", error: error.message });
   }
 });
-router.get("/class/:classAssigned", async (req, res) => {
+router.get("/:classAssigned", async (req, res) => {
   try {
     const classAssigned = req.params.classAssigned; // Extract the class name from the URL
     const students = await Student.find({ classAssigned: classAssigned }); // Use the correct MongoDB query

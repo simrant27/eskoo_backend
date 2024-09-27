@@ -1,6 +1,8 @@
 const express = require("express");
+
 const router = express.Router();
 const feeService = require("../services/feeSevices");
+const Student = require("../models/studentModel");
 
 // Assign a fee to a student
 router.post("/assign", async (req, res) => {
@@ -77,6 +79,45 @@ router.delete("/delete/:id", async (req, res) => {
     res
       .status(400)
       .json({ message: "Error deleting fee", error: error.message });
+  }
+});
+
+// Update assigned fee for a student
+router.put("/update/:studentID/:feeType", async (req, res) => {
+  const { studentID, feeType } = req.params;
+  const { amount, dueDate } = req.body;
+
+  try {
+    const updatedFee = await Fee.findOneAndUpdate(
+      { studentID, feeType },
+      { $set: { amount, dueDate } },
+      { new: true }
+    );
+
+    if (!updatedFee) {
+      return res.status(404).send("Fee not found");
+    }
+
+    res.status(200).json(updatedFee);
+  } catch (err) {
+    res.status(500).send("Error updating fee");
+  }
+});
+
+// Delete assigned fee for a student
+router.delete("/delete/:studentID/:feeType", async (req, res) => {
+  const { studentID, feeType } = req.params;
+
+  try {
+    const deletedFee = await Fee.findOneAndDelete({ studentID, feeType });
+
+    if (!deletedFee) {
+      return res.status(404).send("Fee not found");
+    }
+
+    res.status(200).send("Fee deleted successfully");
+  } catch (err) {
+    res.status(500).send("Error deleting fee");
   }
 });
 
