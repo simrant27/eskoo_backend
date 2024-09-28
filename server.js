@@ -6,6 +6,7 @@ const teacherRoutes = require("./routes/teacherRoutes");
 const studentRoutes = require("./routes/studentRoutes");
 const parentRoutes = require("./routes/parentRoutes");
 const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 const adminRoutes = require("./routes/adminRoutes");
 const dashboardRoutes = require("./routes/dashboardRoute");
@@ -37,6 +38,7 @@ app.use("/api/dashboard", dashboardRoutes);
 // Routes
 app.use("/api/fees", feeRoutes);
 app.use("/api/result", resultRoutes);
+app.use("/api", userRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
