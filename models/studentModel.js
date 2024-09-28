@@ -40,6 +40,12 @@ const studentSchema = new mongoose.Schema({
       ref: "Fee", // Reference the Fee model
     },
   ],
+  result: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Result", // Reference the Marks model
+    },
+  ],
 });
 
 module.exports = mongoose.model("Student", studentSchema);
