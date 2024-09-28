@@ -11,7 +11,7 @@ const adminRoutes = require("./routes/adminRoutes");
 const dashboardRoutes = require("./routes/dashboardRoute");
 
 const feeRoutes = require("./routes/feeRoutes");
-
+const resultRoutes = require("./routes/resultRoutes");
 
 const app = express();
 
@@ -36,6 +36,7 @@ app.use("/api/dashboard", dashboardRoutes);
 
 // Routes
 app.use("/api/fees", feeRoutes);
+app.use("/api/result", resultRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

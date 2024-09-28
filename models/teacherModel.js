@@ -1,17 +1,18 @@
 const mongoose = require("mongoose");
 
 const teacherSchema = new mongoose.Schema({
-  fullName: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  phone: { type: String, required: true },
-  subjectsTaught: { type: [String], required: true }, // Array of subjects
-  gradeAssigned: { type: [String], required: true }, // Array of grade/classes
-  teacherID: { type: String, required: true, unique: true },
-  enrolled: { type: Boolean, default: true },
-  qualifications: { type: [String], required: true }, // Array of certifications
-  address: { type: String, required: true },
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  fullName: { type: String, required: false },
+  email: { type: String, required: false, unique: true },
+  phone: { type: String, required: false },
+  subjectsTaught: { type: [String], required: false }, // Array of subjects
+  // gradeAssigned: { type: [String], required: false }, // Array of grade/classes
+  teacherID: { type: String, required: false, unique: true },
+
+  enrolled: { type: Boolean, default: false },
+  qualifications: { type: [String], required: false }, // Array of certifications
+  address: { type: String, required: false },
+  username: { type: String, required: false, unique: true },
+  password: { type: String, required: false },
   image: { type: String, required: false }, // Store hashed password
 });
 
