@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const upload = require("../middlewares/uploadPhoto");
 const Student = require("../models/studentModel");
+const Parent = require("../models/parentModel");
 
 const studentService = require("../services/studentService");
 const studentController = require("../controllers/studentController");
@@ -115,6 +116,28 @@ router.get("/:classAssigned", async (req, res) => {
     res.json({ success: true, students }); // Return the students in JSON format
   } catch (error) {
     res.status(500).json({ success: false, message: error.message }); // Handle errors
+  }
+});
+
+router.get("/by-parent/:parentId", async (req, res) => {
+  try {
+    const parentId = req.params.parentId; // Get parent_id from route parameters
+
+    const students = await Student.find({ parentID: parentId }); // Use the correct MongoDB query
+
+    // Check if the parent was found
+    if (!students) {
+      return res
+        .status(404)
+        .json({ message: "no stud with this parent id not found." });
+    }
+    res.json({ success: true, students }); // Return the students in JSON format
+
+    // Return the populated children (students)
+    // res.status(200).json({ students: parent.children });
+  } catch (error) {
+    console.error("Error fetching students by parent_id:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 });
 

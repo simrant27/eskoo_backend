@@ -3,24 +3,24 @@ const mongoose = require("mongoose");
 const studentSchema = new mongoose.Schema({
   fullName: {
     type: String,
-    required: true,
+    required: false,
   },
   classAssigned: {
     type: String,
-    required: true,
+    required: false,
   },
   studentId: {
     type: String,
-    required: true,
+    required: false,
     unique: true,
   },
   address: {
     type: String,
-    required: true,
+    required: false,
   },
   gender: {
     type: String,
-    required: true,
+    required: false,
   },
   parentID: {
     type: mongoose.Schema.Types.ObjectId,
