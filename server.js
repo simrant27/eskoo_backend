@@ -7,6 +7,7 @@ const studentRoutes = require("./routes/studentRoutes");
 const parentRoutes = require("./routes/parentRoutes");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
+const materialRoutes = require("./routes/materialroutes");
 
 const adminRoutes = require("./routes/adminRoutes");
 const dashboardRoutes = require("./routes/dashboardRoute");
@@ -22,6 +23,8 @@ connectDB();
 // Enable CORS
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 
 app.use(express.json());
 app.use(express.static("uploads"));
@@ -33,7 +36,11 @@ app.use("/api/login", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 
-// app.use("/uploads");
+// Static folder to serve uploaded files
+app.use(express.static("uploads"));
+// Routes
+app.use("/api/materials", materialRoutes);
+
 
 // Routes
 app.use("/api/fees", feeRoutes);
