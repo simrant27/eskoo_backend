@@ -7,8 +7,6 @@ const studentRoutes = require("./routes/studentRoutes");
 const parentRoutes = require("./routes/parentRoutes");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
-const path = require("path");
-const uploadRoute = require("./routes/materialUploadRoute");
 
 const adminRoutes = require("./routes/adminRoutes");
 const dashboardRoutes = require("./routes/dashboardRoute");
@@ -36,13 +34,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 
 // app.use("/uploads");
-// Serve static files from the 'assets' directory
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Static route for accessing uploaded files
-app.use("/materialUploads", express.static(path.join(__dirname, "uploads/materials")));
-
-app.use("/api", uploadRoute);
 // Routes
 app.use("/api/fees", feeRoutes);
 app.use("/api/result", resultRoutes);
