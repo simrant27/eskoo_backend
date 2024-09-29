@@ -121,4 +121,7 @@ router.get("/:classAssigned", async (req, res) => {
 // Fetch students by class name
 router.get("/class", studentController.getStudentsByClass);
 
+// Route to get students by parentId
+router.get("/parent/:parentId", studentController.getStudentsByParentId);
+
 module.exports = router;
