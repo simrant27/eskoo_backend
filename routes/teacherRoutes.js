@@ -37,7 +37,7 @@ router.get("/", async (req, res) => {
 });
 
 // Update teacher details
-router.put("/update/:id", async (req, res) => {
+router.put("/update/:id", upload.single("image"), async (req, res) => {
   const teacherData = req.body;
   if (req.file) {
     teacherData.image = req.file.path; // Add the image path to teacherData

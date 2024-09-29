@@ -1,24 +1,27 @@
 const express = require("express");
 const router = express.Router();
+const upload = require("../middlewares/parentPhoto");
+
 const parentService = require("../services/parentService");
 
 // Create a new parent
-router.post("/create", async (req, res) => {
-  try {
-    const parentData = req.body; // Assuming data is sent in the body
-    const result = await parentService.createParent(parentData);
-    if (result.success) {
-      res.status(201).json({
-        message: "Parent created successfully",
-        parent: result.parent,
-      });
-    } else {
-      res.status(400).json({ message: result.message });
-    }
-  } catch (error) {
-    res
-      .status(400)
-      .json({ message: "Error creating parent", error: error.message });
+router.post("/create", upload.single("image"), async (req, res) => {
+  const parentData = req.body; // Assuming data is sent in the body
+
+  if (req.file) {
+    parentData.image = req.file.path;
+  } else {
+    parentData.image = null;
+  }
+  const result = await parentService.createParent(parentData);
+
+  if (result.success) {
+    res.status(201).json({
+      message: "parent created successfully",
+      parent: result.parent,
+    });
+  } else {
+    res.status(400).json({ message: result.message });
   }
 });
 
@@ -26,7 +29,7 @@ router.post("/create", async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     const parents = await parentService.getAllParents();
-    res.status(200).json(parents);
+    res.status(200).json({ parents });
   } catch (error) {
     res
       .status(400)
@@ -34,6 +37,12 @@ router.get("/", async (req, res) => {
   }
 });
 
+// const result = await teacherService.getAllTeachers();
+// if (result.success) {
+//   res.status(200).json({ teachers: result.teachers });
+// } else {
+//   res.status(400).json({ message: result.message });
+// }
 // Find a parent by ID
 router.get("/find/:id", async (req, res) => {
   try {
@@ -51,11 +60,17 @@ router.get("/find/:id", async (req, res) => {
 });
 
 // Update a parent
-router.put("/update/:id", async (req, res) => {
+router.put("/update/:id", upload.single("image"), async (req, res) => {
+  const parentData = req.body;
+  if (req.file) {
+    parentData.image = req.file.path; // Add the image path to teacherData
+  }
   try {
-    const result = await parentService.updateParent(req.params.id, req.body);
+    const result = await parentService.updateParent(req.params.id, parentData);
     if (result.success) {
-      res.status(200).json({ parent: result.parent });
+      res
+        .status(200)
+        .json({ message: "successful updation", parent: result.parent });
     } else {
       res.status(404).json({ message: result.message });
     }

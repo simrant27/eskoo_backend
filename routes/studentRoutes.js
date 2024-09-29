@@ -37,7 +37,7 @@ router.post("/create", upload.single("image"), async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     const students = await studentService.getAllStudents();
-    res.status(200).json(students);
+    res.status(200).json({ students });
   } catch (error) {
     res
       .status(400)
