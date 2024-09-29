@@ -47,7 +47,7 @@ router.get("/", async (req, res) => {
 });
 
 // Find a student by ID
-router.get("/:id", async (req, res) => {
+router.get("/find/:id", async (req, res) => {
   try {
     const result = await studentService.findStudentById(req.params.id);
     if (result.success) {
@@ -104,20 +104,21 @@ router.delete("/delete/:id", async (req, res) => {
       .json({ message: "Error deleting student", error: error.message });
   }
 });
-// router.get("/class/classAssigned", async (req, res) => {
-//   try {
-//     const classAssigned = req.params.classAssigned; // Extract the class name from the URL
-//     const students = await Student.find({ classAssigned: classAssigned }); // Use the correct MongoDB query
-//     if (!students || students.length === 0) {
-//       return res
-//         .status(404)
-//         .json({ message: "No students found for this class" });
-//     }
-//     res.json({ success: true, students }); // Return the students in JSON format
-//   } catch (error) {
-//     res.status(500).json({ success: false, message: error.message }); // Handle errors
-//   }
-// });
+router.get("/:classAssigned", async (req, res) => {
+  try {
+    const classAssigned = req.params.classAssigned; // Extract the class name from the URL
+    const students = await Student.find({ classAssigned: classAssigned }); // Use the correct MongoDB query
+    if (!students || students.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No students found for this class" });
+    }
+    res.json({ success: true, students }); // Return the students in JSON format
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message }); // Handle errors
+  }
+});
+
 router.get("/by-parent/:parentId", async (req, res) => {
   try {
     const parentId = req.params.parentId; // Get parent_id from route parameters
