@@ -4,7 +4,10 @@ const Parent = require("../models/parentModel");
 const createParent = async (parentData) => {
   try {
     // Hash the password
-    const hashedPassword = await bcrypt.hash(parentData.password, 10);
+    const salt = await bcrypt.genSalt(10);
+    // Hash the password using the salt
+    const hashedPassword = await bcrypt.hash(parentData.password, salt);
+    // const hashedPassword = await bcrypt.hash(parentData.password, 10);
     parentData.password = hashedPassword;
 
     const parent = new Parent(parentData);
@@ -40,6 +43,9 @@ const findParentById = async (parentId) => {
 
 const updateParent = async (parentId, updatedData) => {
   try {
+    if (updatedData.password) {
+      updatedData.password = await bcrypt.hash(updatedData.password, 10);
+    }
     const parent = await Parent.findByIdAndUpdate(parentId, updatedData, {
       new: true,
     });

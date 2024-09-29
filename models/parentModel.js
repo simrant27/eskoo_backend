@@ -1,13 +1,15 @@
 const mongoose = require("mongoose");
 
 const parentSchema = new mongoose.Schema({
-  fullName: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  phone: { type: String, required: true },
-  address: { type: String, required: true },
-  children: [{ type: mongoose.Schema.Types.ObjectId, ref: "Student" }],
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  fullName: { type: String, required: false },
+  email: { type: String, required: false, unique: true },
+  phone: { type: String, required: false },
+  address: { type: String, required: false },
+  children: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "Student", required: false },
+  ],
+  username: { type: String, required: false, unique: true },
+  password: { type: String, required: false },
   image: { type: String, required: false },
 });
 

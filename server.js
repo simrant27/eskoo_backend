@@ -36,7 +36,7 @@ app.use("/api/dashboard", dashboardRoutes);
 
 // app.use("/uploads");
 // Serve static files from the 'assets' directory
-app.use("/uploads", express.static(path.join(__dirname, "assets")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Routes
 app.use("/api/fees", feeRoutes);
