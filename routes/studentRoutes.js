@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const upload = require("../middlewares/uploadPhoto");
 const Student = require("../models/studentModel");
+const Parent = require("../models/parentModel");
 
 const studentService = require("../services/studentService");
 const studentController = require("../controllers/studentController");
@@ -46,7 +47,7 @@ router.get("/", async (req, res) => {
 });
 
 // Find a student by ID
-router.get("/find/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const result = await studentService.findStudentById(req.params.id);
     if (result.success) {
@@ -103,18 +104,39 @@ router.delete("/delete/:id", async (req, res) => {
       .json({ message: "Error deleting student", error: error.message });
   }
 });
-router.get("/:classAssigned", async (req, res) => {
+// router.get("/class/classAssigned", async (req, res) => {
+//   try {
+//     const classAssigned = req.params.classAssigned; // Extract the class name from the URL
+//     const students = await Student.find({ classAssigned: classAssigned }); // Use the correct MongoDB query
+//     if (!students || students.length === 0) {
+//       return res
+//         .status(404)
+//         .json({ message: "No students found for this class" });
+//     }
+//     res.json({ success: true, students }); // Return the students in JSON format
+//   } catch (error) {
+//     res.status(500).json({ success: false, message: error.message }); // Handle errors
+//   }
+// });
+router.get("/by-parent/:parentId", async (req, res) => {
   try {
-    const classAssigned = req.params.classAssigned; // Extract the class name from the URL
-    const students = await Student.find({ classAssigned: classAssigned }); // Use the correct MongoDB query
-    if (!students || students.length === 0) {
+    const parentId = req.params.parentId; // Get parent_id from route parameters
+
+    const students = await Student.find({ parentID: parentId }); // Use the correct MongoDB query
+
+    // Check if the parent was found
+    if (!students) {
       return res
         .status(404)
-        .json({ message: "No students found for this class" });
+        .json({ message: "no stud with this parent id not found." });
     }
     res.json({ success: true, students }); // Return the students in JSON format
+
+    // Return the populated children (students)
+    // res.status(200).json({ students: parent.children });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message }); // Handle errors
+    console.error("Error fetching students by parent_id:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 });
 
