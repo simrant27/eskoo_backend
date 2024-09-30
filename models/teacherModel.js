@@ -5,7 +5,7 @@ const teacherSchema = new mongoose.Schema({
   email: { type: String, required: false, unique: true },
   phone: { type: String, required: false },
   subjectsTaught: { type: [String], required: false }, // Array of subjects
-  // gradeAssigned: { type: [String], required: false }, // Array of grade/classes
+  gradeAssigned: { type: [String], required: false }, // Array of grade/classes
   teacherID: { type: String, required: false, unique: true },
 
   enrolled: { type: Boolean, default: false },
