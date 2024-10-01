@@ -1,7 +1,7 @@
 // routes/studentRoutes.js
 const express = require("express");
 const router = express.Router();
-const upload = require("../middlewares/uploadPhoto");
+const upload = require("../middlewares/studentPhoto");
 const Student = require("../models/studentModel");
 const Parent = require("../models/parentModel");
 
